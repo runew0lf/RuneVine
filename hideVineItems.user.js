@@ -316,14 +316,6 @@ document.onreadystatechange = function () {
       }
     });
 
-    // Change plural words for French
-    switch (location.hostname) {
-      case "www.amazon.fr":
-        hiddenText = `${hiddenCount > 1 ? " Masqués" : " Masqué"}`;
-        filteredText = `${filteredCount > 1 ? " Filtrés" : " Filtré"}`;
-        break;
-    }
-
     // Show hidden items on Search page
     if ((location.search).includes("search=")) {
       document.getElementById("hideVineItems-togglePage").checked = true;
@@ -558,6 +550,27 @@ hr {
 #vvp-items-grid {
   display:grid !important;
 }
+
+/*===========================================================
+{{ thorvarium | vine-styling | desktop | pagination-on-top }}
+===========================================================*/
+
+.a-section.vvp-tab-content {
+  position: relative
+}
+
+.a-pagination {
+  position: absolute;
+  top: 8px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.vvp-orders-table--heading-top {
+  margin-top: 35px !important;
+}
+
 `);
   }
 }
+
