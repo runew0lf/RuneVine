@@ -3,7 +3,12 @@
 // @namespace   https://github.com/MD2K23/VineToolsUK
 // @run-at      document-start
 // @match       https://www.amazon.co.uk/vine/vine-items*
-
+// @match       https://www.amazon.com/vine/vine-items*
+// @match       https://www.amazon.ca/vine/vine-items*
+// @match       https://www.amazon.fr/vine/vine-items*
+// @match       https://www.amazon.de/vine/vine-items*
+// @match       https://www.amazon.it/vine/vine-items*
+// @match       https://www.amazon.es/vine/vine-items*
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
@@ -34,30 +39,62 @@ document.onreadystatechange = function () {
       unhideMessage, nofiltersMessage, nohighlightsMessage, invalidfilterMessage, invalidhighlightMessage,
       moreText, nomoreText, deleteText
 
-    hiddenText = " Hidden";
-    filteredText = " Filtered";
-    filterMessage = "Enter a keyword, phrase or regular expression";
-    unfilterMessage = "Enter the number of the item to remove, or type 'more' or 'm' to show more:";
-    filterText = "Hide Keyword / Phrase";
-    unfilterText = "Unhide Keyword / Phrase";
-    highlightText = "Highlight Keyword / Phrase";
-    unhighlightText = "Unhighlight Keyword / Phrase";
-    menuText = "Advanced Filters";
-    showMessage = "Show Hidden / Filtered";
-    hideMessage = "Hide all items on this page";
-    unhideMessage = "Unhide all items on this page";
-    nofiltersMessage = "There are no items to remove";
-    invalidfilterMessage = "Invalid index number entered";
-    moreText = "more";
-    nomoreText = "There are no more items to show";
-    deleteText = "Delete the item";
+    // UK US CA Language / Viewport support
+    switch (location.hostname) {
+      case "www.amazon.fr":
+        hiddenText = `${hiddenCount > 1 ? " Masqués" : " Masqué"}`;
+        filteredText = `${filteredCount > 1 ? " Filtrés" : " Filtré"}`;
+        filterMessage = "Entrer un mot-clé, une phrase ou une expression régulière";
+        unfilterMessage = "Entrez le numéro de l'élément à supprimer, ou tapez 'plus' ou 'p' pour en afficher davantage :";
+        filterText = "Masquer le mot-clé / l'expression";
+        unfilterText = "Afficher le mot-clé / l'expression";
+        highlightText = "Mettre en évidence le mot-clé / l'expression";
+        unhighlightText = "Ne plus mettre en évidence le mot-clé / l'expression";
+        menuText = "Filtres avancés";
+        showMessage = "Montrer les articles masqués / filtrés";
+        hideMessage = "Tout masquer sur cette page";
+        unhideMessage = "Tout afficher sur cette page";
+        nofiltersMessage = "Il n'y a aucun élément à supprimer";
+        invalidfilterMessage = "Numéro d'index invalide saisi";
+        moreText = "plus";
+        nomoreText = "il n'y a plus d'éléments à afficher";
+        deleteText = "Supprimer l'élément";
 
-    // For narrow viewport
-    if (window.innerWidth < 1000) {
-      menuText = "Advanced";
-      showMessage = "Show Hidden";
-      hideMessage = "Hide all";
-      unhideMessage = "Unhide all";
+        // For narrow viewport
+        if (window.innerWidth < 1000) {
+          menuText = "Avancés";
+          showMessage = "Afficher cachés";
+          hideMessage = "Tout cacher";
+          unhideMessage = "Tout afficher";
+        }
+        break;
+
+      default:
+        hiddenText = " Hidden";
+        filteredText = " Filtered";
+        filterMessage = "Enter a keyword, phrase or regular expression";
+        unfilterMessage = "Enter the number of the item to remove, or type 'more' or 'm' to show more:";
+        filterText = "Hide Keyword / Phrase";
+        unfilterText = "Unhide Keyword / Phrase";
+        highlightText = "Highlight Keyword / Phrase";
+        unhighlightText = "Unhighlight Keyword / Phrase";
+        menuText = "Advanced Filters";
+        showMessage = "Show Hidden / Filtered";
+        hideMessage = "Hide all items on this page";
+        unhideMessage = "Unhide all items on this page";
+        nofiltersMessage = "There are no items to remove";
+        invalidfilterMessage = "Invalid index number entered";
+        moreText = "more";
+        nomoreText = "There are no more items to show";
+        deleteText = "Delete the item";
+
+        // For narrow viewport
+        if (window.innerWidth < 1000) {
+          menuText = "Advanced";
+          showMessage = "Show Hidden";
+          hideMessage = "Hide all";
+          unhideMessage = "Unhide all";
+        }
     }
 
     // Hide/Unhide Symbols
