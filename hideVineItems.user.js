@@ -33,6 +33,7 @@ document.onreadystatechange = function () {
       filterText, unfilterText, highlightText, unhighlightText, menuText, showMessage, hideMessage,
       unhideMessage, nofiltersMessage, nohighlightsMessage, invalidfilterMessage, invalidhighlightMessage,
       moreText, nomoreText, deleteText
+    const excludeFromHideAll = "hideVineItems-excludeFromHideAll";
 
     hiddenText = " Hidden";
     filteredText = " Filtered";
@@ -92,7 +93,11 @@ document.onreadystatechange = function () {
 `;
 
     messageSpan.querySelector("#hideVineItems-togglePage").addEventListener("change", toggleHidden)
-    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN) .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
+    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => {
+      document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN):not(." + excludeFromHideAll + ") .hideVineItems-toggleASIN").forEach((hideLink) => {
+        hideLink.click();
+      });
+    });
     messageSpan.querySelector("#hideVineItems-unhideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile.hideVineItems-hideASIN .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
     messageSpan.querySelector("#hideVineItems-filterText").addEventListener("click", function () { displayaddPopup("FILTERS") });
     messageSpan.querySelector("#hideVineItems-unfilterText").addEventListener("click", function () { displayremovePopup("FILTERS") });
@@ -120,6 +125,18 @@ document.onreadystatechange = function () {
         document.querySelector("ul.a-pagination li:last-child a")?.click();
       }
     });
+
+    function addExcludeLink(tile, ASIN) {
+      var tileContent = tile.querySelector(".vvp-item-tile .vvp-item-tile-content");
+      if (tileContent) {
+        var a = document.createElement("span");
+        a.addEventListener("click", (e) => {
+          tile.classList.toggle(excludeFromHideAll);
+        });
+        a.classList.add("hideVineItems-toggleExclude");
+        tileContent.append(a);
+      }
+    }
 
     // Function to toggle hidden item status
     function toggleHidden() {
@@ -286,6 +303,7 @@ document.onreadystatechange = function () {
         }
         a.classList.add("hideVineItems-toggleASIN");
         tileContent.append(a);
+        addExcludeLink(tile, ASIN); // Call the new addExcludeLink function
       }
     }
 
@@ -547,30 +565,28 @@ hr {
   margin-top:10px;
 }
 
+.hideVineItems-toggleExclude {
+  position: absolute;
+  width: 20px !important;
+  height: 17px !important;
+  overflow: hidden;
+  top: 2px;
+  left: 0px;
+  background-color: rgba(0,0,0,0.0);
+  padding: 0;
+  background: url("https://www.freeiconspng.com/thumbs/check-mark-png/check-mark-icon-green-0.png");
+  background-repeat: no-repeat;
+  background-size:contain;
+}
+
+.hideVineItems-excludeFromHideAll .hideVineItems-toggleExclude {
+  background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOGWvozb19hIY20p_7r06RXo8i1oKyAVp0jjBBzOGu2Q&s");
+  background-repeat: no-repeat;
+  background-size:contain;
+}
 #vvp-items-grid {
   display:grid !important;
 }
-
-/*===========================================================
-{{ thorvarium | vine-styling | desktop | pagination-on-top }}
-===========================================================*/
-
-.a-section.vvp-tab-content {
-  position: relative
-}
-
-.a-pagination {
-  position: absolute;
-  top: 8px;
-  right: 50%;
-  transform: translateX(50%);
-}
-
-.vvp-orders-table--heading-top {
-  margin-top: 35px !important;
-}
-
 `);
   }
 }
-
