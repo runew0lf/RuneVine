@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        Hide Vine Items UK
-// @namespace   https://github.com/MD2K23/VineToolsUK
+// @namespace   https://github.com/runew0lf/RuneVine/
 // @run-at      document-start
 // @match       https://www.amazon.co.uk/vine/vine-items*
 
