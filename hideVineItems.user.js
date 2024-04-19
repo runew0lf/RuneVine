@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Hide Vine Items UK (Ruined Version)
+// @name        Hide Vine Items UK
 // @namespace   https://github.com/runew0lf/RuneVine/
 // @run-at      document-start
 // @match       https://www.amazon.co.uk/vine/vine-items*
@@ -9,7 +9,7 @@
 // @grant       GM_deleteValue
 // @grant       GM_addStyle
 // @grant       GM_listValues
-// @version     2.1.6
+// @version     2.1.5
 // @description Adds additional options to let you hide products in Amazon Vine. Fork of script in VineTools: https://github.com/robartsd/VineTools by robartsd: https://github.com/robartsd
 // ==/UserScript==
 // Add a style before the page loads to hide the product grid, to prevent the redraw being visible
@@ -71,39 +71,28 @@ document.onreadystatechange = function () {
     //Create the HTML elements to display on the Amazon Vine page
     var messageSpan = document.createElement("span");
     messageSpan.innerHTML = `
-    <span id="hideVineItems-count"></span>
-    <span class="bullet">&#x2022</span>
-    <span id="hideVineItems-toggleText">${showMessage}</span>
-    <label class="switch"><input id="hideVineItems-togglePage" type="checkbox" autocomplete="off"><span class="slider round"></span></label><br>
-    <a id="hideVineItems-hideAll">${hideMessage}</a>
-    <span class="bullet">&#x2022</span>
-    <a id="hideVineItems-unhideAll">${unhideMessage}</a>
-    <span class="bullet">&#x2022</span>
-    <span class="dropdown">
-      <a id="hideVineItems-filtersMenu">${menuText}</a>
-      <div class="dropdown-content">
-      <a id="hideVineItems-filterText">${filterText}</a>
-      <a id="hideVineItems-unfilterText">${unfilterText}</a>
-      <hr>
-      <a id="hideVineItems-highlightText">${highlightText}</a>
-      <a id="hideVineItems-unhighlightText">${unhighlightText}</a>
-      </div>
-    </span>
-    <span class="bullet">&#x2022</span>
-    <span id="hideVineItems-excludeToggleText">Exclude from Hide All</span> <!-- New toggle text -->
-    `;
-    messageSpan.querySelector("#hideVineItems-excludeToggleText").addEventListener("click", (e) => {
-      document.querySelectorAll(".vvp-item-tile .hideVineItems-excludeFromHideAll").forEach((excludeLink) => {
-        excludeLink.click();
-      });
-    });
+<span id="hideVineItems-count"></span>
+<span class="bullet">&#x2022</span>
+<span id="hideVineItems-toggleText">${showMessage}</span>
+<label class="switch"><input id="hideVineItems-togglePage" type="checkbox" autocomplete="off"><span class="slider round"></span></label><br>
+<a id="hideVineItems-hideAll">${hideMessage}</a>
+<span class="bullet">&#x2022</span>
+<a id="hideVineItems-unhideAll">${unhideMessage}</a>
+<span class="bullet">&#x2022</span>
+<span class="dropdown">
+  <a id="hideVineItems-filtersMenu">${menuText}</a>
+  <div class="dropdown-content">
+  <a id="hideVineItems-filterText">${filterText}</a>
+  <a id="hideVineItems-unfilterText">${unfilterText}</a>
+  <hr>
+  <a id="hideVineItems-highlightText">${highlightText}</a>
+  <a id="hideVineItems-unhighlightText">${unhighlightText}</a>
+  </div>
+</span>
+`;
 
     messageSpan.querySelector("#hideVineItems-togglePage").addEventListener("change", toggleHidden)
-    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => {
-      document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN):not(.hideVineItems-excludeFromHideAll) .hideVineItems-toggleASIN").forEach((hideLink) => {
-        hideLink.click();
-      });
-    });
+    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN) .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
     messageSpan.querySelector("#hideVineItems-unhideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile.hideVineItems-hideASIN .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
     messageSpan.querySelector("#hideVineItems-filterText").addEventListener("click", function () { displayaddPopup("FILTERS") });
     messageSpan.querySelector("#hideVineItems-unfilterText").addEventListener("click", function () { displayremovePopup("FILTERS") });
@@ -282,10 +271,6 @@ document.onreadystatechange = function () {
       if (tileContent) {
         var filteredProduct = tile.querySelector(".vvp-item-tile:not(.hideVineItems-filterProduct) .vvp-item-tile-content");
         var a = document.createElement("span");
-        var b = document.createElement("span");
-        b.classList.add("hideVineItems-excludeFromHideAll");
-        b.innerHTML = "&#x2713;";
-
         if (filteredProduct) {
           a.addEventListener("click", (e) => {
             tile.classList.toggle("hideVineItems-hideASIN");
@@ -298,17 +283,9 @@ document.onreadystatechange = function () {
             }
             updateCount();
           });
-
-          // New event listener for excludeFromHideAll
-          b.addEventListener("click", (e) => {
-            tile.classList.toggle("hideVineItems-excludeFromHideAll");
-          });
         }
-
         a.classList.add("hideVineItems-toggleASIN");
-        b.classList.add("hideVineItems-excludeFromHideAll"); // New class for excludeFromHideAll
         tileContent.append(a);
-        tileContent.append(b); // Append the new element
       }
     }
 
@@ -573,11 +550,6 @@ hr {
 #vvp-items-grid {
   display:grid !important;
 }
-
-.hideVineItems-excludeFromHideAll {
-  /* Add any custom styles you want for this class */
-}
-
 `);
   }
 }
