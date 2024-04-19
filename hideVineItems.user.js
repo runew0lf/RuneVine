@@ -71,25 +71,32 @@ document.onreadystatechange = function () {
     //Create the HTML elements to display on the Amazon Vine page
     var messageSpan = document.createElement("span");
     messageSpan.innerHTML = `
-<span id="hideVineItems-count"></span>
-<span class="bullet">&#x2022</span>
-<span id="hideVineItems-toggleText">${showMessage}</span>
-<label class="switch"><input id="hideVineItems-togglePage" type="checkbox" autocomplete="off"><span class="slider round"></span></label><br>
-<a id="hideVineItems-hideAll">${hideMessage}</a>
-<span class="bullet">&#x2022</span>
-<a id="hideVineItems-unhideAll">${unhideMessage}</a>
-<span class="bullet">&#x2022</span>
-<span class="dropdown">
-  <a id="hideVineItems-filtersMenu">${menuText}</a>
-  <div class="dropdown-content">
-  <a id="hideVineItems-filterText">${filterText}</a>
-  <a id="hideVineItems-unfilterText">${unfilterText}</a>
-  <hr>
-  <a id="hideVineItems-highlightText">${highlightText}</a>
-  <a id="hideVineItems-unhighlightText">${unhighlightText}</a>
-  </div>
-</span>
-`;
+    <span id="hideVineItems-count"></span>
+    <span class="bullet">&#x2022</span>
+    <span id="hideVineItems-toggleText">${showMessage}</span>
+    <label class="switch"><input id="hideVineItems-togglePage" type="checkbox" autocomplete="off"><span class="slider round"></span></label><br>
+    <a id="hideVineItems-hideAll">${hideMessage}</a>
+    <span class="bullet">&#x2022</span>
+    <a id="hideVineItems-unhideAll">${unhideMessage}</a>
+    <span class="bullet">&#x2022</span>
+    <span class="dropdown">
+      <a id="hideVineItems-filtersMenu">${menuText}</a>
+      <div class="dropdown-content">
+      <a id="hideVineItems-filterText">${filterText}</a>
+      <a id="hideVineItems-unfilterText">${unfilterText}</a>
+      <hr>
+      <a id="hideVineItems-highlightText">${highlightText}</a>
+      <a id="hideVineItems-unhighlightText">${unhighlightText}</a>
+      </div>
+    </span>
+    <span class="bullet">&#x2022</span>
+    <span id="hideVineItems-excludeToggleText">Exclude from Hide All</span> <!-- New toggle text -->
+    `;
+    messageSpan.querySelector("#hideVineItems-excludeToggleText").addEventListener("click", (e) => {
+      document.querySelectorAll(".vvp-item-tile .hideVineItems-excludeFromHideAll").forEach((excludeLink) => {
+        excludeLink.click();
+      });
+    });
 
     messageSpan.querySelector("#hideVineItems-togglePage").addEventListener("change", toggleHidden)
     messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => {
@@ -275,7 +282,9 @@ document.onreadystatechange = function () {
       if (tileContent) {
         var filteredProduct = tile.querySelector(".vvp-item-tile:not(.hideVineItems-filterProduct) .vvp-item-tile-content");
         var a = document.createElement("span");
-        var b = document.createElement("span"); // New element for excludeFromHideAll
+        var b = document.createElement("span");
+        b.classList.add("hideVineItems-excludeFromHideAll");
+        b.innerHTML = "&#x2713;";
 
         if (filteredProduct) {
           a.addEventListener("click", (e) => {
