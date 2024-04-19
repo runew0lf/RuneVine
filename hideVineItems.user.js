@@ -92,7 +92,11 @@ document.onreadystatechange = function () {
 `;
 
     messageSpan.querySelector("#hideVineItems-togglePage").addEventListener("change", toggleHidden)
-    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN) .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
+    messageSpan.querySelector("#hideVineItems-hideAll").addEventListener("click", (e) => {
+      document.querySelectorAll(".vvp-item-tile:not(.hideVineItems-hideASIN):not(.hideVineItems-excludeFromHideAll) .hideVineItems-toggleASIN").forEach((hideLink) => {
+        hideLink.click();
+      });
+    });
     messageSpan.querySelector("#hideVineItems-unhideAll").addEventListener("click", (e) => { document.querySelectorAll(".vvp-item-tile.hideVineItems-hideASIN .hideVineItems-toggleASIN").forEach((hideLink) => { hideLink.click(); }) });
     messageSpan.querySelector("#hideVineItems-filterText").addEventListener("click", function () { displayaddPopup("FILTERS") });
     messageSpan.querySelector("#hideVineItems-unfilterText").addEventListener("click", function () { displayremovePopup("FILTERS") });
@@ -271,6 +275,8 @@ document.onreadystatechange = function () {
       if (tileContent) {
         var filteredProduct = tile.querySelector(".vvp-item-tile:not(.hideVineItems-filterProduct) .vvp-item-tile-content");
         var a = document.createElement("span");
+        var b = document.createElement("span"); // New element for excludeFromHideAll
+
         if (filteredProduct) {
           a.addEventListener("click", (e) => {
             tile.classList.toggle("hideVineItems-hideASIN");
@@ -283,9 +289,17 @@ document.onreadystatechange = function () {
             }
             updateCount();
           });
+
+          // New event listener for excludeFromHideAll
+          b.addEventListener("click", (e) => {
+            tile.classList.toggle("hideVineItems-excludeFromHideAll");
+          });
         }
+
         a.classList.add("hideVineItems-toggleASIN");
+        b.classList.add("hideVineItems-excludeFromHideAll"); // New class for excludeFromHideAll
         tileContent.append(a);
+        tileContent.append(b); // Append the new element
       }
     }
 
@@ -550,6 +564,11 @@ hr {
 #vvp-items-grid {
   display:grid !important;
 }
+
+.hideVineItems-excludeFromHideAll {
+  /* Add any custom styles you want for this class */
+}
+
 `);
   }
 }
