@@ -17,6 +17,97 @@ GM_addStyle(`
 #vvp-items-grid {
   display:none !important;
 }
+
+.a-section.vvp-tab-content {
+  position: relative
+}
+
+.a-pagination {
+  position: absolute;
+  top: 8px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+#vvp-browse-nodes-container {
+  transition: width 0.5s !important;
+}
+#vvp-browse-nodes-container:not(:hover) {
+  width: 80px !important;
+  margin-right: 20px;
+}
+#vvp-browse-nodes-container:not(:hover) .parent-node {
+  height: 15px !important;
+  width: unset !important;
+}
+#vvp-browse-nodes-container:not(:hover) .parent-node .selectedNode~span {
+  font-weight: bold !important;
+}
+#vvp-browse-nodes-container:not(:hover) .child-node {
+  display: none !important;
+}
+#vvp-browse-nodes-container:not(:hover) .parent-node a {
+  font-size: 0 !important;
+}
+#vvp-browse-nodes-container:not(:hover) .parent-node a:before {
+  font-size: 15px !important;
+}
+
+.vvp-orders-table--heading-top {
+  margin-top: 35px !important;
+}
+
+#rhf, #rhf-shoveler, .rhf-frame, #navFooter {
+  display: none !important;
+}
+
+#vvp-items-button--recommended a,
+#vvp-items-button--all a,
+#vvp-items-button--seller a {
+  color: transparent;
+  width: 75px;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+#vvp-items-button--recommended a::before,
+#vvp-items-button--all a::before,
+#vvp-items-button--seller a::before {
+    color: initial;
+    position: absolute !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    width: 100% !important;
+    left: 0px !important;
+    text-align: center !important;
+    padding: 9px 0px !important;
+}
+
+#vvp-items-button--recommended a::before {
+    content: "RFY" !important;
+}
+
+#vvp-items-button--all a::before {
+    content: "AFA" !important;
+}
+
+#vvp-items-button--seller a::before {
+    content: "AI" !important;
+}
+
+#navbar-main, #skiplink {
+  display: none;
+}
+
+.amzn-ss-wrap {
+  display: none !important;
+}
+
+
 `);
 
 // Run the rest of the code after the page loads, but before the images load, to improve speed
